@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Key</title>
+</head>
+<body>
+    <h2>Generated Key</h2>
+    <p>Key Size: {{ keysize }} bits</p>
+    <p>Public Key: {{ public_key }}</p>
+    <form method="POST" action="/encrypt">
+        <input type="hidden" name="keysize" value="{{ keysize }}">
+        <input type="hidden" name="public_key_n" value="{{ public_key[0] }}">
+        <input type="hidden" name="public_key_e" value="{{ public_key[1] }}">
+        
+        <label for="message">Enter a message to encrypt:</label><br>
+        <textarea name="message" rows="4" cols="50"></textarea><br>
+
+        <input type="submit" value="Encrypt">
+    </form>
+</body>
+</html>

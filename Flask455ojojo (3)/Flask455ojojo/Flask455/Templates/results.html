@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body>
+    <h2>{{ operation }} Result</h2>
+    <p>Key Size: {{ keysize }} bits</p>
+    <p>Original Message: {{ message }}</p>
+    <p>Result: {{ result }}</p>
+
+    {% if operation == 'Encrypt' and private_key_n and private_key_d %}
+        <form method="POST" action="/decrypt">
+            <input type="hidden" name="keysize" value="{{ keysize }}">
+            <input type="hidden" name="private_key_n" value="{{ private_key_n }}">
+            <input type="hidden" name="private_key_d" value="{{ private_key_d }}">
+            <input type="hidden" name="encrypted_message" value="{{ result }}">
+            
+            <input type="submit" value="Decrypt">
+        </form>
+    {% endif %}
+
+    {% if operation == 'Decrypt' and public_key %}
+        <form method="POST" action="/encrypt">
+            <input type="hidden" name="keysize" value="{{ keysize }}">
+            {% if public_key[0] %}
+                <input type="hidden" name="public_key_n" value="{{ public_key[0] }}">
+            {% endif %}
+            {% if public_key[1] %}
+                <input type="hidden" name="public_key_e" value="{{ public_key[1] }}">
+            {% endif %}
+            <input type="hidden" name="message" value="{{ result }}">
+            <input type="hidden" name="original_length" value="{{ original_length }}">
+            
+            <!-- Include private key components in the form -->
+            {% if private_key_n %}
+                <input type="hidden" name="private_key_n" value="{{ private_key_n }}">
+            {% endif %}
+            {% if private_key_d %}
+                <input type="hidden" name="private_key_d" value="{{ private_key_d }}">
+            {% endif %}
+            
+            <input type="submit" value="Encrypt">
+        </form>
+    {% endif %}
+</body>
+</html>
